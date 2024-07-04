@@ -1,6 +1,8 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 
 # Function to fit data to decline models
 def fit_decline_model(t, q, model_func, p0):
