@@ -1,8 +1,8 @@
 import streamlit as st
 import numpy as np
-import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 st.title('2D Anisotropic Permability')
 st.sidebar.title('Inputs')
