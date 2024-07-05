@@ -120,7 +120,7 @@ elif st.session_state.page == 'input_parameters':
         st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': har_production, 'Cumulative Production': har_cumulative}))
 
 elif st.session_state.page == 'upload_csv':
-    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+    uploaded_file = st.file_uploader("Upload your 'time|rate' CSV file", type=["csv"])
     if uploaded_file is not None:
         st.header('The Best Fit Model is shown as follows:')
         data = pd.read_csv(uploaded_file)
