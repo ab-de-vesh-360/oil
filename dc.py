@@ -60,7 +60,7 @@ if st.session_state.page == 'home':
 
 elif st.session_state.page == 'input_parameters':
         # New title and headers
-        st.header('Different Decline Curve Models have been analyzed as follows:')
+        st.header('Different Decline Curve Models have been analyzed as follows below:')
         st.sidebar.title('Enter Parameters for Decline Curve Analysis')
 
         # Sidebar inputs for parameters
