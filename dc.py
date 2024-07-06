@@ -194,36 +194,46 @@ elif st.session_state.page == 'upload_csv':
 
             st.write(f"Best fit model: {best_fit}")
 
-            future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+            #future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
             if best_fit == 'Exponential':
                 qi, di = exp_params
                 best_production = exponential_decline(t, qi, di)
                 best_cumulative = cumulative_exponential(qi, di, t)
                 st.write(f"Calculated decline rate (Di): {di:.2f}")
-                forecast_production = exponential_decline(future_t, qi, di)
-                forecast_cumulative = cumulative_exponential(qi, di, future_t)
+                #forecast_production = exponential_decline(future_t, qi, di)
+                #forecast_cumulative = cumulative_exponential(qi, di, future_t)
             elif best_fit == 'Harmonic':
                 qi, di = har_params
                 best_production = harmonic_decline(t, qi, di)
                 best_cumulative = cumulative_harmonic(qi, di, t)
                 st.write(f"Calculated decline rate (Di): {di:.2f}")
-                forecast_production = harmonic_decline(future_t, qi, di)
-                forecast_cumulative = cumulative_harmonic(qi, di, future_t)
+                #forecast_production = harmonic_decline(future_t, qi, di)
+                #forecast_cumulative = cumulative_harmonic(qi, di, future_t)
             else:
                 qi, di, b = hyp_params
                 best_production = hyperbolic_decline(t, qi, di, b)
                 best_cumulative = cumulative_hyperbolic(qi, di, b, t)
                 st.write(f"Calculated decline rate (Di): {di:.2f}")
                 st.write(f"Calculated b factor: {b:.2f}")
-                forecast_production = hyperbolic_decline(future_t, qi, di, b)
-                forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
+                #forecast_production = hyperbolic_decline(future_t, qi, di, b)
+                #forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
 
             # Define a new future time range for the forecast
             future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
             d = st.sidebar.button('Show Production Forecast')
             if d:
-                
+                future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+
+                if best_fit == 'Exponential':
+                    forecast_production = exponential_decline(future_t, qi, di)
+                    forecast_cumulative = cumulative_exponential(qi, di, future_t)
+                elif best_fit == 'Harmonic':
+                    forecast_production = harmonic_decline(future_t, qi, di)
+                    forecast_cumulative = cumulative_harmonic(qi, di, future_t)
+                else:
+                    forecast_production = hyperbolic_decline(future_t, qi, di, b)
+                    forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
                 # Plotting best fit model production rates
                 fig, ax = plt.subplots()
                 fig = go.Figure()
