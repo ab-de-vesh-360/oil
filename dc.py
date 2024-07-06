@@ -60,8 +60,7 @@ if st.session_state.page == 'home':
         st.experimental_rerun()
 
 elif st.session_state.page == 'input_parameters':
-        # New title and headers
-        st.header('Different Decline Curve Models have been analyzed as follows below:')
+        
         st.sidebar.title('Enter Parameters for Decline Curve Analysis')
 
         # Sidebar inputs for parameters
@@ -83,68 +82,72 @@ elif st.session_state.page == 'input_parameters':
         exp_cumulative = cumulative_exponential(qi, di, t)
         hyp_cumulative = cumulative_hyperbolic(qi, di, b, t)
         har_cumulative = cumulative_harmonic(qi, di, t)
-
+    #show button
+        b = st.button('Show Reservoir Performance Analysis')
+        if b:
+        # New title and headers
+            st.header('Different Decline Curve Models have been analyzed as follows below:')
     # Plotting production rates
-        fig, ax = plt.subplots()
-        fig = go.Figure()
-        #ax.plot(t, exp_production, label='Exponential Decline')
-        fig.add_trace(go.Scatter(x=t, y= exp_production, mode='lines+markers', name='Exponential Decline'))
-        #ax.plot(t, hyp_production, label='Hyperbolic Decline')
-        fig.add_trace(go.Scatter(x=t, y=hyp_production, mode='lines+markers', name='Hyperbolic Decline'))
-        #ax.plot(t, har_production, label='Harmonic Decline')
-        fig.add_trace(go.Scatter(x=t, y=har_production, mode='lines+markers', name='Harmonic Decline'))
+            fig, ax = plt.subplots()
+            fig = go.Figure()
+            #ax.plot(t, exp_production, label='Exponential Decline')
+            fig.add_trace(go.Scatter(x=t, y= exp_production, mode='lines+markers', name='Exponential Decline'))
+            #ax.plot(t, hyp_production, label='Hyperbolic Decline')
+            fig.add_trace(go.Scatter(x=t, y=hyp_production, mode='lines+markers', name='Hyperbolic Decline'))
+            #ax.plot(t, har_production, label='Harmonic Decline')
+            fig.add_trace(go.Scatter(x=t, y=har_production, mode='lines+markers', name='Harmonic Decline'))
 
-        #ax.set_xlabel('Time (years)')
-        #ax.set_ylabel('Production Rate')
-        #ax.set_title('Decline Curve Analysis')
-        #ax.legend()
-        fig.update_layout(
-            title='Decline Curve Analysis',
-            xaxis_title='Time (years)',
-            yaxis_title='Production Rate (q)',
-            hovermode='x unified',
-            width = 1500,
-            height = 500
-        )
+            #ax.set_xlabel('Time (years)')
+            #ax.set_ylabel('Production Rate')
+            #ax.set_title('Decline Curve Analysis')
+            #ax.legend()
+            fig.update_layout(
+                title='Decline Curve Analysis',
+                xaxis_title='Time (years)',
+                yaxis_title='Production Rate (q)',
+                hovermode='x unified',
+                width = 1500,
+                height = 500
+            )
 
-        #st.pyplot(fig)
-        st.plotly_chart(fig)
+            #st.pyplot(fig)
+            st.plotly_chart(fig)
 
     # Plotting cumulative production
-        fig2, ax2 = plt.subplots()
-        fig2 = go.Figure()
-        #ax2.plot(t, exp_cumulative, label='Exponential Cumulative Production')
-        fig2.add_trace(go.Scatter(x=t, y=exp_cumulative, mode = 'lines+markers', name= 'Exponential Cumulative Production'))
-        #ax2.plot(t, hyp_cumulative, label='Hyperbolic Cumulative Production')
-        fig2.add_trace(go.Scatter(x=t, y=hyp_cumulative, mode = 'lines+markers', name= 'Hyperbolic Cumulative Production'))
-        #ax2.plot(t, har_cumulative, label='Harmonic Cumulative Production')
-        fig2.add_trace(go.Scatter(x=t, y=har_cumulative, mode = 'lines+markers', name= 'Harmonic Cumulative Production'))
+            fig2, ax2 = plt.subplots()
+            fig2 = go.Figure()
+            #ax2.plot(t, exp_cumulative, label='Exponential Cumulative Production')
+            fig2.add_trace(go.Scatter(x=t, y=exp_cumulative, mode = 'lines+markers', name= 'Exponential Cumulative Production'))
+            #ax2.plot(t, hyp_cumulative, label='Hyperbolic Cumulative Production')
+            fig2.add_trace(go.Scatter(x=t, y=hyp_cumulative, mode = 'lines+markers', name= 'Hyperbolic Cumulative Production'))
+            #ax2.plot(t, har_cumulative, label='Harmonic Cumulative Production')
+            fig2.add_trace(go.Scatter(x=t, y=har_cumulative, mode = 'lines+markers', name= 'Harmonic Cumulative Production'))
 
-        #ax2.set_xlabel('Time (years)')
-        #ax2.set_ylabel('Cumulative Production')
-        #ax2.set_title('Cumulative Production Analysis')
-        #ax2.legend()
-        fig2.update_layout(
-            title='Cumulative Production Analysis',
-            xaxis_title='Time (years)',
-            yaxis_title='Cumulative Production',
-            hovermode='x unified',
-            width = 1500,
-            height = 500
-        )
+            #ax2.set_xlabel('Time (years)')
+            #ax2.set_ylabel('Cumulative Production')
+            #ax2.set_title('Cumulative Production Analysis')
+            #ax2.legend()
+            fig2.update_layout(
+                title='Cumulative Production Analysis',
+                xaxis_title='Time (years)',
+                yaxis_title='Cumulative Production',
+                hovermode='x unified',
+                width = 1500,
+                height = 500
+            )
 
-        #st.pyplot(fig2)
-        st.plotly_chart(fig2)
-        # Display the data
-        st.subheader('Decline Curve Data')
-        st.write('### Exponential Decline')
-        st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': exp_production, 'Cumulative Production': exp_cumulative}))
+            #st.pyplot(fig2)
+            st.plotly_chart(fig2)
+            # Display the data
+            st.subheader('Decline Curve Data')
+            st.write('### Exponential Decline')
+            st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': exp_production, 'Cumulative Production': exp_cumulative}))
 
-        st.write('### Hyperbolic Decline')
-        st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': hyp_production, 'Cumulative Production': hyp_cumulative}))
+            st.write('### Hyperbolic Decline')
+            st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': hyp_production, 'Cumulative Production': hyp_cumulative}))
 
-        st.write('### Harmonic Decline')
-        st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': har_production, 'Cumulative Production': har_cumulative}))
+            st.write('### Harmonic Decline')
+            st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': har_production, 'Cumulative Production': har_cumulative}))
 
 elif st.session_state.page == 'upload_csv':
     uploaded_file = st.file_uploader("Upload your 'time|rate' CSV file", type=["csv"])
