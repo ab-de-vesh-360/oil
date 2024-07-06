@@ -225,7 +225,7 @@ elif st.session_state.page == 'upload_csv':
             title='Best Fit Decline Curve Analysis with Forecast',
             xaxis_title='Time (years)',
             yaxis_title='Production Rate (q)',
-            hovermode='x unified'
+            hovermode='x unified',
             width = 1000
             height = 800)
 
