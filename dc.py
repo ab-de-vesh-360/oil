@@ -194,7 +194,7 @@ elif st.session_state.page == 'upload_csv':
 
             st.write(f"Best fit model: {best_fit}")
 
-            
+            future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
             if best_fit == 'Exponential':
                 qi, di = exp_params
@@ -223,7 +223,7 @@ elif st.session_state.page == 'upload_csv':
             future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
             d = st.sidebar.button('Show Production Forecast')
             if d:
-                future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+                
                 # Plotting best fit model production rates
                 fig, ax = plt.subplots()
                 fig = go.Figure()
