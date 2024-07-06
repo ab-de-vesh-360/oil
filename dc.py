@@ -248,7 +248,9 @@ elif st.session_state.page == 'upload_csv':
             title='Best Fit Cumulative Production Analysis with Forecast',
             xaxis_title='Time (years)',
             yaxis_title='Cumulative Production',
-            hovermode='x unified')
+            hovermode='x unified',
+            width = 1500,
+            height = 500)
 
         #st.pyplot(fig2)
         st.plotly_chart(fig2)
