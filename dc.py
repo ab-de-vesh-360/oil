@@ -227,7 +227,7 @@ elif st.session_state.page == 'upload_csv':
             yaxis_title='Production Rate (q)',
             hovermode='x unified',
             width = 1500,
-            height = 600)
+            height = 500)
 
         #st.pyplot(fig)
         st.plotly_chart(fig)
