@@ -85,16 +85,27 @@ elif st.session_state.page == 'input_parameters':
 
     # Plotting production rates
         fig, ax = plt.subplots()
-        ax.plot(t, exp_production, label='Exponential Decline')
-        ax.plot(t, hyp_production, label='Hyperbolic Decline')
-        ax.plot(t, har_production, label='Harmonic Decline')
+        fig = go.Figure()
+        #ax.plot(t, exp_production, label='Exponential Decline')
+        fig.add_trace(go.Scatter(x=t, y= exp_production, mode='lines+markers', name='Exponential Decline'))
+        #ax.plot(t, hyp_production, label='Hyperbolic Decline')
+        fig.add_trace(go.Scatter(x=t, y=hyp_production, mode='lines+markers', name='Hyperbolic Decline'))
+        #ax.plot(t, har_production, label='Harmonic Decline')
+        fig.add_trace(go.Scatter(x=t, y=har_production, mode='lines+markers', name='Harmonic Decline'))
 
-        ax.set_xlabel('Time (years)')
-        ax.set_ylabel('Production Rate')
-        ax.set_title('Decline Curve Analysis')
-        ax.legend()
+        #ax.set_xlabel('Time (years)')
+        #ax.set_ylabel('Production Rate')
+        #ax.set_title('Decline Curve Analysis')
+        #ax.legend()
+        fig.update_layout(
+            title='Decline Curve Analysis',
+            xaxis_title='Time (years)',
+            yaxis_title='Production Rate (q)',
+            hovermode='x unified'
+        )
 
-        st.pyplot(fig)
+        #st.pyplot(fig)
+        st.plotly_chart(fig)
 
     # Plotting cumulative production
         fig2, ax2 = plt.subplots()
