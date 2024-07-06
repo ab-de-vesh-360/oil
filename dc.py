@@ -227,7 +227,7 @@ elif st.session_state.page == 'upload_csv':
             d = st.sidebar.button('Show Production Forecast')
             
             if d:
-                st.session_state.'Show Best Fit Model' = True
+                st.session_state.p = True
                 st.experimental_rerun()
                 future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
