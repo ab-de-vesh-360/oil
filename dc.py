@@ -232,11 +232,11 @@ elif st.session_state.page == 'upload_csv':
 
         # Plotting best fit model cumulative production
         fig2, ax2 = plt.subplots()
-        fug2= go.Figure()
+        fig2= go.Figure()
         #ax2.plot(t, best_cumulative, label=f'Best Fit: {best_fit} Cumulative Production')
         fig2.add_trace(go.Scatter(x=t, y=best_cumulative, mode='lines+markers', name= f'Best Fit: {best_fit} Cumulative Production'))
         #ax2.plot(future_t, forecast_cumulative, label=f'Forecast: {best_fit} Cumulative Production', linestyle='--')
-        fig.add_trace(go.Scatter(x=future_t, y=forecast_cumulative, mode='lines+markers', name= f'Forecast: {best_fit} Cumulative Production'))
+        fig2.add_trace(go.Scatter(x=future_t, y=forecast_cumulative, mode='lines+markers', name= f'Forecast: {best_fit} Cumulative Production'))
 
         #ax2.set_xlabel('Time (years)')
         #ax2.set_ylabel('Cumulative Production')
