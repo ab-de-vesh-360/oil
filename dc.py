@@ -202,24 +202,24 @@ elif st.session_state.page == 'upload_csv':
             best_production = exponential_decline(t, qi, di)
             best_cumulative = cumulative_exponential(qi, di, t)
             st.write(f"Calculated decline rate (Di): {di:.2f}")
-            forecast_production = exponential_decline(future_t, qi, di)
-            forecast_cumulative = cumulative_exponential(qi, di, future_t)
+            #forecast_production = exponential_decline(future_t, qi, di)
+            #forecast_cumulative = cumulative_exponential(qi, di, future_t)
                 
         elif best_fit == 'Harmonic':
             qi, di = har_params
             best_production = harmonic_decline(t, qi, di)
             best_cumulative = cumulative_harmonic(qi, di, t)
             st.write(f"Calculated decline rate (Di): {di:.2f}")
-            forecast_production = harmonic_decline(future_t, qi, di)
-            forecast_cumulative = cumulative_harmonic(qi, di, future_t)
+            #forecast_production = harmonic_decline(future_t, qi, di)
+            #forecast_cumulative = cumulative_harmonic(qi, di, future_t)
         else:
             qi, di, b = hyp_params
             best_production = hyperbolic_decline(t, qi, di, b)
             best_cumulative = cumulative_hyperbolic(qi, di, b, t)
             st.write(f"Calculated decline rate (Di): {di:.2f}")
             st.write(f"Calculated b factor: {b:.2f}")
-            forecast_production = hyperbolic_decline(future_t, qi, di, b)
-            forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
+            #forecast_production = hyperbolic_decline(future_t, qi, di, b)
+            #forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
             
         p = st.button('Show Production Forecast')
         if p:
