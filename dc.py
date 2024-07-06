@@ -222,7 +222,7 @@ elif st.session_state.page == 'upload_csv':
         #ax.set_title('Best Fit Decline Curve Analysis with Forecast')
         #ax.legend()
         fig.update_layout(
-            title='Best Fit Decline Curve Analysis with Forecast'
+            title='Best Fit Decline Curve Analysis with Forecast',
             xaxis_title='Time (years)',
             yaxis_title='Production Rate (q)',
             hovermode='x unified')
