@@ -226,7 +226,7 @@ elif st.session_state.page == 'upload_csv':
             xaxis_title='Time (years)',
             yaxis_title='Production Rate (q)',
             hovermode='x unified',
-            width = 1000
+            width = 1000,
             height = 800)
 
         #st.pyplot(fig)
