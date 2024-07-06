@@ -243,10 +243,10 @@ elif st.session_state.page == 'upload_csv':
         
              # Define a new future time range for the forecast
             
-        future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
-        #d = st.sidebar.button('Show Production Forecast')
+            future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
+            #d = st.sidebar.button('Show Production Forecast')
             
-        if st.session_state.button2_clicked:
+            if st.session_state.button2_clicked:
                 
                 future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
