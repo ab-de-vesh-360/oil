@@ -228,65 +228,65 @@ elif st.session_state.page == 'upload_csv':
             
 
                 
-                # Plotting best fit model production rates
-                fig, ax = plt.subplots()
-                fig = go.Figure()
-                ax.plot(t, q, 'o', label='Data')
-                #ax.plot(t, best_production, label=f'Best Fit: {best_fit} Decline')
-                fig.add_trace(go.Scatter(x=t, y=best_production, mode='lines+markers', name= f'Best Fit: {best_fit} Decline'))
-                #ax.plot(future_t, forecast_production, label=f'Forecast: {best_fit} Decline', linestyle='--')
-                fig.add_trace(go.Scatter(x=future_t, y=forecast_production, mode='lines+markers', name= f'Forecast: {best_fit} Decline'))
+            # Plotting best fit model production rates
+            fig, ax = plt.subplots()
+            fig = go.Figure()
+            ax.plot(t, q, 'o', label='Data')
+            #ax.plot(t, best_production, label=f'Best Fit: {best_fit} Decline')
+            fig.add_trace(go.Scatter(x=t, y=best_production, mode='lines+markers', name= f'Best Fit: {best_fit} Decline'))
+            #ax.plot(future_t, forecast_production, label=f'Forecast: {best_fit} Decline', linestyle='--')
+            fig.add_trace(go.Scatter(x=future_t, y=forecast_production, mode='lines+markers', name= f'Forecast: {best_fit} Decline'))
 
                 #ax.set_xlabel('Time (years)')
                 #ax.set_ylabel('Production Rate')
                 #ax.set_title('Best Fit Decline Curve Analysis with Forecast')
                 #ax.legend()
-                fig.update_layout(
-                    title='Best Fit Decline Curve Analysis with Forecast',
-                    xaxis_title='Time (years)',
-                    yaxis_title='Production Rate (q)',
-                    hovermode='x unified',
-                    width = 1500,
-                    height = 500)
+            fig.update_layout(
+                title='Best Fit Decline Curve Analysis with Forecast',
+                xaxis_title='Time (years)',
+                yaxis_title='Production Rate (q)',
+                hovermode='x unified',
+                width = 1500,
+                height = 500)
 
                 #st.pyplot(fig)
-                st.plotly_chart(fig)
+            st.plotly_chart(fig)
 
                 # Plotting best fit model cumulative production
-                fig2, ax2 = plt.subplots()
-                fig2= go.Figure()
-                #ax2.plot(t, best_cumulative, label=f'Best Fit: {best_fit} Cumulative Production')
-                fig2.add_trace(go.Scatter(x=t, y=best_cumulative, mode='lines+markers', name= f'Best Fit: {best_fit} Cumulative Production'))
-                #ax2.plot(future_t, forecast_cumulative, label=f'Forecast: {best_fit} Cumulative Production', linestyle='--')
-                fig2.add_trace(go.Scatter(x=future_t, y=forecast_cumulative, mode='lines+markers', name= f'Forecast: {best_fit} Cumulative Production'))
+            fig2, ax2 = plt.subplots()
+            fig2= go.Figure()
+            #ax2.plot(t, best_cumulative, label=f'Best Fit: {best_fit} Cumulative Production')
+            fig2.add_trace(go.Scatter(x=t, y=best_cumulative, mode='lines+markers', name= f'Best Fit: {best_fit} Cumulative Production'))
+            #ax2.plot(future_t, forecast_cumulative, label=f'Forecast: {best_fit} Cumulative Production', linestyle='--')
+            fig2.add_trace(go.Scatter(x=future_t, y=forecast_cumulative, mode='lines+markers', name= f'Forecast: {best_fit} Cumulative Production'))
 
                 #ax2.set_xlabel('Time (years)')
                 #ax2.set_ylabel('Cumulative Production')
                 #ax2.set_title('Best Fit Cumulative Production Analysis with Forecast')
                 #ax2.legend()
-                fig2.update_layout(
-                    title='Best Fit Cumulative Production Analysis with Forecast',
-                    xaxis_title='Time (years)',
-                    yaxis_title='Cumulative Production',
-                    hovermode='x unified',
-                    width = 1500,
-                    height = 500)
+            fig2.update_layout(
+                title='Best Fit Cumulative Production Analysis with Forecast',
+                xaxis_title='Time (years)',
+                yaxis_title='Cumulative Production',
+                hovermode='x unified',
+                width = 1500,
+                height = 500)
 
                 #st.pyplot(fig2)
-                st.plotly_chart(fig2)
+            st.plotly_chart(fig2)
 
                  # Display the best fit model data
-                st.subheader('Best Fit Decline Curve Data')
-                st.write(f'### {best_fit} Decline')
-                st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': best_production, 'Cumulative Production': best_cumulative}))
+            st.subheader('Best Fit Decline Curve Data')
+            st.write(f'### {best_fit} Decline')
+            st.write(pd.DataFrame({'Time (years)': t, 'Production Rate': best_production, 'Cumulative Production': best_cumulative}))
 
                 # Display the forecast data
-                st.subheader('Production Forecast Data')
-                st.write(pd.DataFrame({'Future Time (years)': future_t, 'Forecast Production Rate': forecast_production}))
+            st.subheader('Production Forecast Data')
+            st.write(pd.DataFrame({'Future Time (years)': future_t, 'Forecast Production Rate': forecast_production}))
 
                 # Display the forecast cumulative production data
-                st.subheader('Cumulative Production Forecast Data')
-                st.write(pd.DataFrame({'Future Time (years)': future_t, 'Forecast Cumulative Production': forecast_cumulative}))
+            st.subheader('Cumulative Production Forecast Data')
+            st.write(pd.DataFrame({'Future Time (years)': future_t, 'Forecast Cumulative Production': forecast_cumulative}))
 
 
 
