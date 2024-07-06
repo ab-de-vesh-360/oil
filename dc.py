@@ -154,7 +154,7 @@ elif st.session_state.page == 'upload_csv':
     if uploaded_file is not None:
         # Define a new future time range for the forecast
         future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
-        future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+        
         p = st.button('Show Best Fit Model')
         if p:
             
@@ -194,7 +194,7 @@ elif st.session_state.page == 'upload_csv':
 
             st.write(f"Best fit model: {best_fit}")
 
-            
+            future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
             if best_fit == 'Exponential':
                 qi, di = exp_params
