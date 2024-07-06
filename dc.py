@@ -218,7 +218,7 @@ elif st.session_state.page == 'upload_csv':
                 st.write(f"Calculated b factor: {b:.2f}")
                 #forecast_production = hyperbolic_decline(future_t, qi, di, b)
                 #forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
-            continue:
+            
 
         
              # Define a new future time range for the forecast
