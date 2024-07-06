@@ -153,51 +153,51 @@ elif st.session_state.page == 'upload_csv':
     uploaded_file = st.file_uploader("Upload your 'time|rate' CSV file", type=["csv"])
     if uploaded_file is not None:
         # Define a new future time range for the forecast
-        future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
+        #future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
         
-        p = st.button('Show Best Fit Model')
+        #p = st.button('Show Best Fit Model')
 
-        if p:
+        #if p:
             
-            st.header('The Best Fit Model is shown as follows:')
-            data = pd.read_csv(uploaded_file)
-            st.write("Data Preview:")
-            st.write(data.head())
+        st.header('The Best Fit Model is shown as follows:')
+        data = pd.read_csv(uploaded_file)
+        st.write("Data Preview:")
+        st.write(data.head())
 
             # Assume the file has columns 'time' and 'rate'
-            t = data['time'].values
-            q = data['rate'].values
+        t = data['time'].values
+        q = data['rate'].values
 
             # Fit the data to each model
-            exp_params = fit_decline_model(t, q, exponential_decline, p0=[q[0], 0.1])
-            har_params = fit_decline_model(t, q, harmonic_decline, p0=[q[0], 0.1])
-            hyp_params = fit_decline_model(t, q, hyperbolic_decline, p0=[q[0], 0.1, 0.5])
+        exp_params = fit_decline_model(t, q, exponential_decline, p0=[q[0], 0.1])
+        har_params = fit_decline_model(t, q, harmonic_decline, p0=[q[0], 0.1])
+        hyp_params = fit_decline_model(t, q, hyperbolic_decline, p0=[q[0], 0.1, 0.5])
 
             # Calculate R-squared for each model
-            exp_residuals = q - exponential_decline(t, *exp_params)
-            exp_ss_res = np.sum(exp_residuals**2)
-            exp_ss_tot = np.sum((q - np.mean(q))**2)
-            exp_r2 = 1 - (exp_ss_res / exp_ss_tot)
+        exp_residuals = q - exponential_decline(t, *exp_params)
+        exp_ss_res = np.sum(exp_residuals**2)
+        exp_ss_tot = np.sum((q - np.mean(q))**2)
+        exp_r2 = 1 - (exp_ss_res / exp_ss_tot)
 
-            har_residuals = q - harmonic_decline(t, *har_params)
-            har_ss_res = np.sum(har_residuals**2)
-            har_ss_tot = np.sum((q - np.mean(q))**2)
-            har_r2 = 1 - (har_ss_res / har_ss_tot)
+        har_residuals = q - harmonic_decline(t, *har_params)
+        har_ss_res = np.sum(har_residuals**2)
+        har_ss_tot = np.sum((q - np.mean(q))**2)
+        har_r2 = 1 - (har_ss_res / har_ss_tot)
 
-            hyp_residuals = q - hyperbolic_decline(t, *hyp_params)
-            hyp_ss_res = np.sum(hyp_residuals**2)
-            hyp_ss_tot = np.sum((q - np.mean(q))**2)
-            hyp_r2 = 1 - (hyp_ss_res / hyp_ss_tot)
+        hyp_residuals = q - hyperbolic_decline(t, *hyp_params)
+        hyp_ss_res = np.sum(hyp_residuals**2)
+        hyp_ss_tot = np.sum((q - np.mean(q))**2)
+        hyp_r2 = 1 - (hyp_ss_res / hyp_ss_tot)
 
             # Determine the best fit model
-            r2_values = {'Exponential': exp_r2, 'Harmonic': har_r2, 'Hyperbolic': hyp_r2}
-            best_fit = max(r2_values, key=r2_values.get)
+        r2_values = {'Exponential': exp_r2, 'Harmonic': har_r2, 'Hyperbolic': hyp_r2}
+        best_fit = max(r2_values, key=r2_values.get)
 
-            st.write(f"Best fit model: {best_fit}")
+        st.write(f"Best fit model: {best_fit}")
 
-            future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+        #future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
-            if best_fit == 'Exponential':
+        if best_fit == 'Exponential':
                 qi, di = exp_params
                 best_production = exponential_decline(t, qi, di)
                 best_cumulative = cumulative_exponential(qi, di, t)
@@ -220,14 +220,21 @@ elif st.session_state.page == 'upload_csv':
                 forecast_production = hyperbolic_decline(future_t, qi, di, b)
                 forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
             
-
-        
+        p = st.button('Show Production Forecast')
+        if p:
              # Define a new future time range for the forecast
-            
-            
-            
+            future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
+            future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
+            if best_fit == 'Exponential':
+                forecast_production = exponential_decline(future_t, qi, di)
+                forecast_cumulative = cumulative_exponential(qi, di, future_t)
+            elif best_fit == 'Harmonic':
+                forecast_production = harmonic_decline(future_t, qi, di)
+                forecast_cumulative = cumulative_harmonic(qi, di, future_t)
+            else:
+                forecast_production = hyperbolic_decline(future_t, qi, di, b)
+                forecast_cumulative = cumulative_hyperbolic(qi, di, b, future_t)
 
-                
             # Plotting best fit model production rates
             fig, ax = plt.subplots()
             fig = go.Figure()
