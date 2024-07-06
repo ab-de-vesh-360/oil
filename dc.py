@@ -225,8 +225,9 @@ elif st.session_state.page == 'upload_csv':
             
             future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
             d = st.sidebar.button('Show Production Forecast')
-            st.session_state.p = True
+            
             if d:
+                st.session_state.p = True
                 future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
 
                 if best_fit == 'Exponential':
