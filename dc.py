@@ -155,8 +155,28 @@ elif st.session_state.page == 'upload_csv':
         # Define a new future time range for the forecast
         #future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
         
-        p = st.button('Show Best Fit Model')
-        if p:
+        #p = st.button('Show Best Fit Model')
+        if 'button1_clicked' not in st.session_state:
+            st.session_state.button1_clicked = False
+
+        if 'button2_clicked' not in st.session_state:
+            st.session_state.button2_clicked = False
+
+# Define the function to handle the first button click
+        def click_button1():
+            st.session_state.button1_clicked = True
+
+# Define the function to handle the second button click
+        def click_button2():
+            st.session_state.button1_clicked = True  # Ensure button 1 remains active
+            st.session_state.button2_clicked = True
+
+# Create the first button and assign the click function
+        button1 = st.button('Show Best Model', on_click=click_button1)
+
+# Create the second button and assign the click function
+        button2 = st.button('Show Production Forecast', on_click=click_button2)
+        if st.session_state.button1_clicked:
             
             st.header('The Best Fit Model is shown as follows:')
             data = pd.read_csv(uploaded_file)
@@ -223,10 +243,10 @@ elif st.session_state.page == 'upload_csv':
         
              # Define a new future time range for the forecast
             
-            future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
-            d = st.sidebar.button('Show Production Forecast')
+        future_time_period = st.sidebar.number_input('Forecast Time Period (years)', value=10, min_value=1, step=1)
+        d = st.sidebar.button('Show Production Forecast')
             
-            if d:
+        if st.session_state.button2_clicked:
                 st.session_state == 'The Best Fit Model is shown as follows:'
                 st.experimental_rerun()
                 future_t = np.linspace(t[-1], t[-1] + future_time_period, 100)
