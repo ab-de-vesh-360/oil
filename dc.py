@@ -102,7 +102,9 @@ elif st.session_state.page == 'input_parameters':
             title='Decline Curve Analysis',
             xaxis_title='Time (years)',
             yaxis_title='Production Rate (q)',
-            hovermode='x unified'
+            hovermode='x unified',
+            width = 1500,
+            height = 500
         )
 
         #st.pyplot(fig)
@@ -126,7 +128,9 @@ elif st.session_state.page == 'input_parameters':
             title='Cumulative Production Analysis',
             xaxis_title='Time (years)',
             yaxis_title='Cumulative Production',
-            hovermode='x unified'
+            hovermode='x unified',
+            width = 1500,
+            height = 500
         )
 
         #st.pyplot(fig2)
