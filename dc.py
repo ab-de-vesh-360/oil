@@ -110,16 +110,27 @@ elif st.session_state.page == 'input_parameters':
 
     # Plotting cumulative production
         fig2, ax2 = plt.subplots()
-        ax2.plot(t, exp_cumulative, label='Exponential Cumulative Production')
-        ax2.plot(t, hyp_cumulative, label='Hyperbolic Cumulative Production')
-        ax2.plot(t, har_cumulative, label='Harmonic Cumulative Production')
+        fig2 = go.Figure()
+        #ax2.plot(t, exp_cumulative, label='Exponential Cumulative Production')
+        fig2.add_trace(go.Scatter(x=t, y=exp_cumulative, mode = 'lines+markers', name= 'Exponential Cumulative Production'))
+        #ax2.plot(t, hyp_cumulative, label='Hyperbolic Cumulative Production')
+        fig2.add_trace(go.Scatter(x=t, y=hyp_cumulative, mode = 'lines+markers', name= 'Hyperbolic Cumulative Production'))
+        #ax2.plot(t, har_cumulative, label='Harmonic Cumulative Production')
+        fig2.add_trace(go.Scatter(x=t, y=har_cumulative, mode = 'lines+markers', name= 'Harmonic Cumulative Production'))
 
-        ax2.set_xlabel('Time (years)')
-        ax2.set_ylabel('Cumulative Production')
-        ax2.set_title('Cumulative Production Analysis')
-        ax2.legend()
+        #ax2.set_xlabel('Time (years)')
+        #ax2.set_ylabel('Cumulative Production')
+        #ax2.set_title('Cumulative Production Analysis')
+        #ax2.legend()
+        fig2.update_layout(
+            title='Cumulative Production Analysis',
+            xaxis_title='Time (years)',
+            yaxis_title='Cumulative Production',
+            hovermode='x unified'
+        )
 
-        st.pyplot(fig2)
+        #st.pyplot(fig2)
+        st.plotly_chart(fig2)
         # Display the data
         st.subheader('Decline Curve Data')
         st.write('### Exponential Decline')
