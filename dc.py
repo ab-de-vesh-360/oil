@@ -215,7 +215,7 @@ elif st.session_state.page == 'upload_csv':
         #ax.plot(t, best_production, label=f'Best Fit: {best_fit} Decline')
         fig.add_trace(go.Scatter(x=t, y=best_production, mode='lines+markers', name= f'Best Fit: {best_fit} Decline'))
         #ax.plot(future_t, forecast_production, label=f'Forecast: {best_fit} Decline', linestyle='--')
-        fig.add_trace(go.Scatter(x=future_t, y=forecast_production, mode='lines+markers', name= f'Forecast: {best_fit} Decline', linestyle='--' ))
+        fig.add_trace(go.Scatter(x=future_t, y=forecast_production, mode='lines+markers', name= f'Forecast: {best_fit} Decline'))
 
         #ax.set_xlabel('Time (years)')
         #ax.set_ylabel('Production Rate')
