@@ -226,8 +226,8 @@ elif st.session_state.page == 'upload_csv':
             xaxis_title='Time (years)',
             yaxis_title='Production Rate (q)',
             hovermode='x unified',
-            width = 1000,
-            height = 800)
+            width = 1200,
+            height = 400)
 
         #st.pyplot(fig)
         st.plotly_chart(fig)
