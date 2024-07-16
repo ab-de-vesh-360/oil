@@ -98,8 +98,8 @@ elif st.session_state.page == 'Build_Hold':
         # ax.set_title('Build and Hold Profile')
         # ax.legend()
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines+markers', name='Build and Hold Trajectory',
-                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination: %{customdata[1]}°', customdata=np.column_stack((MDx_values, a_values)), line=dict(width= 0.05)))
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Build and Hold Trajectory',
+                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination: %{customdata[1]}°', customdata=np.column_stack((MDx_values, a_values)), line=dict(width= 4)))
         
 
         # st.pyplot(fig)
@@ -211,8 +211,8 @@ elif st.session_state.page == 'Build_Hold_Drop':
         ax.plot(Hx_values,Vx_values , label='Build, Hold and Drop Trajectory')
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines+markers', name='Build, Hold and Drop Trajectory',
-                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Buildup Inclination: %{customdata[1]}°<br>Drop Angle: %{customdata[2]}°', customdata=np.column_stack(((MDx_values, a1_values, drop_values))), line=dict(width= 0.05)))
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Build, Hold and Drop Trajectory',
+                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Buildup Inclination: %{customdata[1]}°<br>Drop Angle: %{customdata[2]}°', customdata=np.column_stack(((MDx_values, a1_values, drop_values))), line=dict(width= 4)))
         
         
         # st.pyplot(fig)
