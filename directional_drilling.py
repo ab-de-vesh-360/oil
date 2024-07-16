@@ -100,7 +100,23 @@ elif st.session_state.page == 'Build_Hold':
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Build and Hold Trajectory',
                          hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination: %{customdata[1]}°', customdata=np.column_stack((MDx_values, a_values)), line=dict(width= 4)))
-        
+        text_points = {
+            'Hx': [0, 0, Hc, Ht],
+            'Vx': [0, Vb, Vc, Vt],   # Example specific Hx points
+            'MDx': [0, Vb, MDc, MDt],
+            'A': [0, 0, a, a],
+    
+            'labels': ['Start', 'Kick Off', 'End of Build Up', 'Target']  # Labels for the specific points
+            }
+        fig.add_trace(go.Scatter(
+            x=text_points['Hx'],
+            y=text_points['Vx'],
+            mode='markers+text',
+            name= 'Corners',
+            text=text_points['labels'],
+            textposition='top right',  # Adjust text position as needed
+            marker=dict(color='red', size=7, symbol='circle'),
+            hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination: %{customdata[1]}°<br>Label: %{text}', customdata=np.column_stack((text_points['MDx'], text_points['A'])), line=dict(width= 4)))  # Disable hover for these markers))
 
         # st.pyplot(fig)
         fig.update_layout(
@@ -207,13 +223,31 @@ elif st.session_state.page == 'Build_Hold_Drop':
             drop_values.append(dr)
  
         plt.style.use('classic')
+        
         fig, ax = plt.subplots()
-        ax.plot(Hx_values,Vx_values , label='Build, Hold and Drop Trajectory')
+        #ax.plot(Hx_values,Vx_values , label='Build, Hold & Drop Trajectory')
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Build, Hold and Drop Trajectory',
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Trajectory',
                          hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Buildup Inclination: %{customdata[1]}°<br>Drop Angle: %{customdata[2]}°', customdata=np.column_stack(((MDx_values, a1_values, drop_values))), line=dict(width= 4)))
-        
+        text_points = {
+            'Hx': [0, 0, Hc, Hd, He, Ht],
+            'Vx': [0, Vb, Vc, Vd, Ve, Vt],   # Example specific Hx points
+            'MDx': [0, Vb, MDc, MDd, MDe, MDt],
+            'A': [0, 0, a1, a1, a1, a1],
+            'D': [0, 0, 0, 0, dr, dr],
+            'labels': ['Start', 'Kick Off', 'End of Build Up', 'Start of Drop', 'End of Drop', 'Target']  # Labels for the specific points
+            }
+        fig.add_trace(go.Scatter(
+            x=text_points['Hx'],
+            y=text_points['Vx'],
+            mode='markers+text',
+            name= 'Corners',
+            text=text_points['labels'],
+            textposition='top right',  # Adjust text position as needed
+            marker=dict(color='red', size=7, symbol='circle'),
+            hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Buildup Inclination: %{customdata[1]}°<br>Drop Angle: %{customdata[2]}°<br>Label: %{text}', customdata=np.column_stack(((text_points['MDx'], text_points['A'], text_points['D']))), line=dict(width= 4)))  # Disable hover for these markers
+            
         
         # st.pyplot(fig)
         fig.update_layout(
@@ -228,3 +262,4 @@ elif st.session_state.page == 'Build_Hold_Drop':
         # Display the data
         st.subheader('Buil, Hold and Drop Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, ' Buildup Inclination Angle (°)' : a1_values, 'Drop Angle (°)': drop_values}))
+        
