@@ -98,7 +98,7 @@ elif st.session_state.page == 'Build_Hold':
         # ax.set_title('Build and Hold Profile')
         # ax.legend()
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Build and Hold Trajectory',
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Trajectory',
                          hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination: %{customdata[1]}°', customdata=np.column_stack((MDx_values, a_values)), line=dict(width= 4)))
         text_points = {
             'Hx': [0, 0, Hc, Ht],
