@@ -40,7 +40,9 @@ if st.session_state.page == 'home':
 
 elif st.session_state.page == 'Build_Hold':
     st.write('*It is used in the targets where a large horizontal displacement is required at relatively shallow depth. Shallow kick off point is selected. Under normal conditions, 15° - 55° inclination can be achieved. Although greater inclinations have been drilled in required cases.*')
+    st.sidebar.write('Build and Hold Profile')
     st.sidebar.title('Enter the known Parameters required')
+    
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=6000.0, min_value=0.0, step = 0.01)
@@ -146,7 +148,9 @@ elif st.session_state.page == 'Build_Hold':
 
 elif st.session_state.page == 'Build_Hold_Drop':
     st.write('*It is used in the targets where a smaller horizontal displacement is required at relatively deep vertical depth as compared to type-1 profile. In first build upattempt, the required inclination is achieved. Then the well is drilled tangentially for constant inclination and while approaching the pay zone the inclination is drop out so that the target can be penetrated.*')
+    st.sidebar.write('Build, Hold and Drop Profile')
     st.sidebar.title('Enter the known Parameters required')
+    
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=6000.0, min_value=0.0, step = 0.01)
@@ -278,7 +282,9 @@ elif st.session_state.page == 'Build_Hold_Drop':
 
 elif st.session_state.page == 'Slanted':
     st.write('*This type of profile can be drilled using the slanted rig that provides initial inclination at the time of spudding of the well profile by slanted position of the rig at the surface. This profile is beneficial to provide extension in the horizontal displacement, and is useful to penetrate the targets located at a far distances which are unable to be drilled by conventional well profile.*')
+    st.sidebar.write('Slanted Buildup Prfile')
     st.sidebar.title('Enter the known Parameters required')
+    
     MDb = st.sidebar.number_input('Enter KOP Measured Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=12000.0, min_value=0.0, step = 0.01)
@@ -402,7 +408,9 @@ elif st.session_state.page == 'Slanted':
 
 elif st.session_state.page == 'Horizontal_Single':
     st.write('*The horizontal wells are the wells in which the well path enters the pay zone in parallel to the bedding plane. These provide the solution of the production through the tight reservoir, vertically fractured formation, damaged drainage areas, thin pay zones and wells having severe gas or oil conning problems. In such well profiles, the horizontal drain hole length (L) is decided by reservoir drainage area that has to be penetrated.*   \n    \n  *In this profile complete 90o inclination is achieved in one attempt of build up. This profile is useful in the fields where the drainage area is quite near to the vertical locus point of the surface drilling point i.e. not far than the radius of the curvature*')
+    st.sidebar.write('Horizontal Single Buildup Profile')
     st.sidebar.title('Enter the known Parameters required')
+    
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=12000.0, min_value=0.0, step = 0.01)
     L = st.sidebar.number_input('Enter the Horizontal Length to be drilled (ft)', value=2000.0, min_value=0.0, step = 0.01)
@@ -496,7 +504,9 @@ elif st.session_state.page == 'Horizontal_Single':
         
 elif st.session_state.page == 'Horizontal_Double':
     st.write('*In this profile the 90o inclination is achieved in two attempts of build up. This profile is selected in the fields where the target reservoir drainage area is far and is beyond the reach of the single build up profile.*')
+    st.sidebar.write('Horizontal Double Buildup Profile')
     st.sidebar.title('Enter the known Parameters required')
+    
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=16000.0, min_value=0.0, step = 0.01)
@@ -640,4 +650,6 @@ elif st.session_state.page == 'Horizontal_Double':
         # Display the data
         st.subheader('Buil, Hold and Drop Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, '1st Buildup Inclination Angle (°)' : a1_values, '2nd Buildup Inclination Angle (°)': a2_values, 'Total Inclination Angle (°)': at_values}))
+
+
 
