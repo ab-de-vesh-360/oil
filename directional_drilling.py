@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import plotly.graph_objects as go
+from math import pi
+import sympy as sp
 
 # Initialize session state for navigation
 if 'page' not in st.session_state:
@@ -398,4 +400,244 @@ elif st.session_state.page == 'Slanted':
         st.subheader('Slanted Buildup Profile Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, 'Inclination Buildup Angle (°)' : a2_values, 'Total Inclination Angle (°)': at_values}))
 
+elif st.session_state.page == 'Horizontal_Single':
+    st.write('*The horizontal wells are the wells in which the well path enters the pay zone in parallel to the bedding plane. These provide the solution of the production through the tight reservoir, vertically fractured formation, damaged drainage areas, thin pay zones and wells having severe gas or oil conning problems. In such well profiles, the horizontal drain hole length (L) is decided by reservoir drainage area that has to be penetrated.*   \n    \n  *In this profile complete 90o inclination is achieved in one attempt of build up. This profile is useful in the fields where the drainage area is quite near to the vertical locus point of the surface drilling point i.e. not far than the radius of the curvature*')
+    st.sidebar.title('Enter the known Parameters required')
+    Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
+    Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=12000.0, min_value=0.0, step = 0.01)
+    L = st.sidebar.number_input('Enter the Horizontal Length to be drilled (ft)', value=2000.0, min_value=0.0, step = 0.01)
+
+    r = Ht - L
+    build_rate = 18000/(r*(pi))
+    Vb = Vt - r
+    MDb = Vb
+    Vc = Vt
+    Hc = r
+    MDc = MDb + 90*100/build_rate
+    Ht = Hc + L
+    MDt = MDc + L
+    
+    h = st.sidebar.button('Show the Profile Trajectories')
+    if h:
+        st.sidebar.write(f'Calculated Radius (r): {r:.2f} ft')
+        st.sidebar.write(f'Calculated Buildup Rate (phi): {build_rate:.2f}°/100ft')
+        trajectory = {
+            'Point': ['A', 'B', 'C', 'T'],
+            'V(FT)': [0, Vb, Vc, Vt],
+            'H(FT)': [0, 0, Hc, Ht],
+            'MD(FT)': [0, MDb, MDc, MDt]
+        }
+        df = pd.DataFrame(trajectory)
+        st.header('***The Profile trajectory is shown as below:***')
+        st.table(df)
+
+        MDx_values = np.linspace(0, MDt, 500)
+        Vx_values = []
+        Hx_values = []
+        a_values = []
+
+        for MDx in MDx_values:
+
+
+            if MDx <= Vb:
+                Vx = MDx
+                Hx = 0
+                ax = 0
+            elif MDx <= MDc:
+                a1 = (MDx - Vb)*build_rate/100
+                Vx = Vb + r*np.sin(np.radians(a1))
+                Hx = r*(1-np.cos(np.radians(a1)))
+                ax = a1
+            else:
+                CX = MDx - MDc
+                Vx = Vt
+                Hx = Hc + CX
+                ax = 90
+
+            Vx_values.append(Vx)
+            Hx_values.append(Hx)
+            a_values.append(ax)
+        
+        fig, ax = plt.subplots()
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Trajectory',
+                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination Buildup: %{customdata[1]}°', customdata=np.column_stack((MDx_values, a_values)), line=dict(width= 4)))
+        text_points = {
+            'Hx': [0, 0, Hc, Ht],
+            'Vx': [0, Vb, Vc, Vt],   # Example specific Hx points
+            'MDx': [0, MDb, MDc, MDt],
+            'A': [0, 0, 90, 90],
+    
+            'labels': ['Start', 'Kick Off', 'End of Build Up', 'Target']  # Labels for the specific points
+            }
+        fig.add_trace(go.Scatter(
+            x=text_points['Hx'],
+            y=text_points['Vx'],
+            mode='markers+text',
+            name= 'Corners',
+            text=text_points['labels'],
+            textposition='top right',  # Adjust text position as needed
+            marker=dict(color='red', size=7, symbol='circle'),
+            hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>Inclination Buildup: %{customdata[1]}°<br>Label: %{text}', customdata=np.column_stack((text_points['MDx'], text_points['A'])), line=dict(width= 4)))  # Disable hover for these markers))
+
+        # st.pyplot(fig)
+        fig.update_layout(
+        title='Horiontal Single Buildup Profile',
+        xaxis_title='Horizontal Distance (ft)',
+        yaxis_title='Vertical Depth (ft)',
+        yaxis=dict(
+        autorange='reversed'),
+        hovermode='closest')
+        st.plotly_chart(fig)
+
+        # Display the data
+        st.subheader('Horiontal Single Buildup Profile Trajectory Data')
+        st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, 'Inclination Buildup Angle (°)' : a_values}))
+        
+elif st.session_state.page == 'Horizontal_Double':
+    st.write('*In this profile the 90o inclination is achieved in two attempts of build up. This profile is selected in the fields where the target reservoir drainage area is far and is beyond the reach of the single build up profile.*')
+    st.sidebar.title('Enter the known Parameters required')
+    Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
+    Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
+    Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=16000.0, min_value=0.0, step = 0.01)
+    L = st.sidebar.number_input('Enter the Horizontal Length to be drilled (ft)', value=2000.0, min_value=0.0, step = 0.01)
+    a1 = st.sidebar.number_input('Enter the inclination angle of first buuildup (degrees): ', value=60.0, min_value=0.0, step=0.01)
+    build_rate_1 = st.sidebar.number_input('Enter Build Rate 1 (degrees per 100 ft)', value=1.5, min_value=0.0, step = 0.01)
+
+    def radius_of_curvature(build_rate):
+        return 18000 / (np.pi * build_rate)
+    r1 = radius_of_curvature(build_rate_1)
+
+    a2 = 90-a1
+    Vc = Vb + r1*np.sin(np.radians(a1))
+    Hc = r1*(1-np.cos(np.radians(a1)))
+    MDb = Vb
+    MDc = Vb + (a1/build_rate_1)*100
+    He = Ht - L
+    CD, r2 = sp.symbols('CD r2')
+    eq1 = sp.Eq(Vt, Vc + CD*np.cos(np.radians(a1)) + r2*(1-np.cos(np.radians(a2))))
+    eq2 = sp.Eq(Ht, Hc + CD*np.sin(np.radians(a1)) + r2*np.sin(np.radians(a2)) + L)
+    sol = sp.solve([eq1, eq2], [CD, r2])
+    # CD = sol[0][0]
+    # r2 = sol[1][0]
+    CD = float(sol[CD])
+    r2 = float(sol[r2])
+    build_rate_2 = 18000/(pi*r2)
+    Hd = Hc + CD*np.sin(np.radians(a1))
+    Vd = Vc + CD*np.cos(np.radians(a1))
+    MDd = MDc + CD
+
+    MDe = MDd + a2*100/build_rate_2
+    Ve = Vt
+    MDt = MDe + L
+    at = a1 + a2
+
+    q = st.sidebar.button('Show the Profile Trajectories')
+    if q:
+        st.sidebar.write(f'Calculated Radius (r1): {r1:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (r2): {r2:.2f} ft')
+        st.sidebar.write(f'Calculated 2nd Buildup Rate (phi_2): {build_rate_2:.2f}°/100ft')
+        st.sidebar.write(f'Calculated Inclination Buildup Angle: {a2:.2f}°')
+        trajectory = {
+            'Point': ['A', 'B', 'C', 'D', 'E', 'T'],
+            'V(FT)': [0, Vb, Vc, Vd, Ve, Vt],
+            'H(FT)': [0, 0, Hc, Hd, He, Ht],
+            'MD(FT)': [0, Vb, MDc, MDd, MDe, MDt]
+
+        }
+        df = pd.DataFrame(trajectory)       
+        st.header('***The Profile trajectory is shown as below:***')
+        st.table(df)
+
+        MDx_values = np.linspace(0, MDt, 5000)
+        Vx_values = []
+        Hx_values = []
+        a1_values = []
+        a2_values = []
+        at_values = []
+
+
+        # Calculate Vx and Hx for each MDx
+        for MDx in MDx_values:
+
+            if MDx <= Vb:
+                Vx = MDx
+                Hx = 0
+                a1x = 0
+                a2x = 0
+                atx = a1x + a2x
+            elif MDx <= MDc:
+                a_1 = (MDx - Vb) * build_rate_1 / 100
+                Vx = Vb + r1 * np.sin(np.radians(a_1))
+                Hx = r1 * (1 - np.cos(np.radians(a_1)))
+                a1x = a_1
+                a2x = 0
+                atx = a1x + a2x
+            elif MDx <= MDd:
+                CX = MDx - MDc
+                Vx = Vc + CX * np.cos(np.radians(a1))
+                Hx = Hc + CX * np.sin(np.radians(a1))
+                a1x = a1
+                a2x = 0
+                atx = a1x + a2x
+            elif MDx <= MDe:
+                a_2 = (MDx - MDd) * build_rate_2 / 100
+                Vx = Vd + r2 * (np.sin(np.radians(a1+a_2)) - np.sin(np.radians(a1)))
+                Hx = Hd + r2 * (np.cos(np.radians(a1)) - np.cos(np.radians(a1 + a_2)))
+                a1x = a1
+                a2x =a_2
+                atx =a1x + a2x
+            else:
+                EX = MDx - MDe
+                Vx = Ve
+                Hx = He + EX
+                a1x = a1
+                a2x = a2
+                atx = a1x + a2x
+
+            Vx_values.append(Vx)
+            Hx_values.append(Hx)
+            a1_values.append(a1x)
+            a2_values.append(a2x)
+            at_values.append(atx)
+        
+        fig, ax = plt.subplots()
+        #ax.plot(Hx_values,Vx_values , label='Build, Hold & Drop Trajectory')
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=Hx_values, y=Vx_values, mode='lines', name='Trajectory',
+                         hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>1st Buildup Inclination: %{customdata[1]}°<br>2nd Buildup Inclination: %{customdata[2]}°<br>Total Inclination: %{customdata[3]}°', customdata=np.column_stack((((MDx_values, a1_values, a2_values, at_values)))), line=dict(width= 4)))
+        text_points = {
+            'Hx': [0, 0, Hc, Hd, He, Ht],
+            'Vx': [0, Vb, Vc, Vd, Ve, Vt],   # Example specific Hx points
+            'MDx': [0, Vb, MDc, MDd, MDe, MDt],
+            'A1': [0, 0, a1, a1, a1, a1],
+            'A2': [0, 0, 0, 0, a2, a2],
+            'AT': [0, at, at, at, at, at],
+            'labels': ['Start', 'Kick Off', 'End of Build Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target']  # Labels for the specific points
+            }
+        fig.add_trace(go.Scatter(
+            x=text_points['Hx'],
+            y=text_points['Vx'],
+            mode='markers+text',
+            name= 'Corners',
+            text=text_points['labels'],
+            textposition='top right',  # Adjust text position as needed
+            marker=dict(color='red', size=7, symbol='circle'),
+            hovertemplate='MD: %{customdata[0]}<br>H: %{x}<br>V: %{y}<br>1st Buildup Inclination: %{customdata[1]}°<br>2nd Buildup Inclination: %{customdata[2]}°<br>Total Inclination: %{customdata[3]}°<br>Label: %{text}', customdata=np.column_stack((((text_points['MDx'], text_points['A1'], text_points['A2'], text_points['AT'])))), line=dict(width= 4)))  # Disable hover for these markers
+            
+        
+        # st.pyplot(fig)
+        fig.update_layout(
+        title='Build, Hold and Drop Profile',
+        xaxis_title='Horizontal Distance (ft)',
+        yaxis_title='Vertical Depth (ft)',
+        yaxis=dict(
+        autorange='reversed'),
+        hovermode='closest')
+        st.plotly_chart(fig)
+
+        # Display the data
+        st.subheader('Buil, Hold and Drop Trajectory Data')
+        st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, '1st Buildup Inclination Angle (°)' : a1_values, '2nd Buildup Inclination Angle (°)': a2_values, 'Total Inclination Angle (°)': at_values}))
 
