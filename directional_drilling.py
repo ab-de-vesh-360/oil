@@ -16,7 +16,7 @@ if st.session_state.page != 'home':
         st.session_state.page = 'home'
 if st.session_state.page == 'home':
     # Initial interface with title and description
-    st.markdown("<h1 style='text-align: center; font-size: 50px;text-decoration: underline; margin-bottom: 0; color: dark brown;'>Directional Drilling Profiles</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; font-size: 40px;text-decoration: underline; margin-bottom: 0; color: dark brown;'>Directional Drilling Well Profiles</h1>", unsafe_allow_html=True)
     st.markdown("*<h2 style='text-align: right; font-size: 20px;text-decoration: italy; margin-bottom: 0; color: green;'>Unleash the Trajectory!!</h2>*", unsafe_allow_html=True)
     st.markdown("*Welcome to the Directional Drilling Profile Trajectory Calculator!*  \n    \n  *This tool is designed to assist drilling engineers and geologists in calculating and visualizing the trajectory of directional drilling profiles. By inputting key parameters such as Kick off Point, vertical depth of Target, horizontal distance to Target, and other corner values, this calculator provides accurate and efficient calculations of drilling trajectories. Whether you're planning a new well or analyzing an existing profile, our calculator helps you determine the build and hold sections of your drilling path, ensuring precision in achieving desired targets. With interactive visualizations and user-friendly interfaces, you can easily monitor the different parameters at any point along the path to the target.*")
     
@@ -80,7 +80,7 @@ elif st.session_state.page == 'Build_Hold':
         st.header('***The Profile trajectory is shown as below:***')
         st.table(df)
 
-        MDx_values = np.linspace(0, MDt, 10000)
+        MDx_values = np.linspace(0, MDt, round(MDt))
         Vx_values = []
         Hx_values = []
         a_values = []
@@ -198,7 +198,7 @@ elif st.session_state.page == 'Build_Hold_Drop':
         st.header('***The Profile trajectory is shown as below:***')
         st.table(df)
 
-        MDx_values = np.linspace(0, MDt, 10000)
+        MDx_values = np.linspace(0, MDt, round(MDt))
         Vx_values = []
         Hx_values = []
         a1_values = []
@@ -331,7 +331,7 @@ elif st.session_state.page == 'Slanted':
         st.header('***The Profile trajectory is shown as below:***')
         st.table(df)
 
-        MDx_values = np.linspace(0, MDt, 500)
+        MDx_values = np.linspace(0, MDt, round(MDt))
         Vx_values = []
         Hx_values = []
         a2_values = []
@@ -430,7 +430,7 @@ elif st.session_state.page == 'Horizontal_Single':
         st.sidebar.write(f'Calculated Radius (r): {r:.2f} ft')
         st.sidebar.write(f'Calculated Buildup Rate (phi): {build_rate:.2f}°/100ft')
         trajectory = {
-            'Point': ['A', 'B', 'C', 'T'],
+            'Point': ['Start', 'Kick Off', 'End of Build-Up', 'Target'],
             'V(FT)': [0, Vb, Vc, Vt],
             'H(FT)': [0, 0, Hc, Ht],
             'MD(FT)': [0, MDb, MDc, MDt]
@@ -439,7 +439,7 @@ elif st.session_state.page == 'Horizontal_Single':
         st.header('***The Profile trajectory is shown as below:***')
         st.table(df)
 
-        MDx_values = np.linspace(0, MDt, 500)
+        MDx_values = np.linspace(0, MDt, round(MDt))
         Vx_values = []
         Hx_values = []
         a_values = []
@@ -549,7 +549,7 @@ elif st.session_state.page == 'Horizontal_Double':
         st.sidebar.write(f'Calculated 2nd Buildup Rate (phi_2): {build_rate_2:.2f}°/100ft')
         st.sidebar.write(f'Calculated Inclination Buildup Angle: {a2:.2f}°')
         trajectory = {
-            'Point': ['A', 'B', 'C', 'D', 'E', 'T'],
+            'Point': ['Start', 'Kick Off', 'End of 1st Build-Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target'],
             'V(FT)': [0, Vb, Vc, Vd, Ve, Vt],
             'H(FT)': [0, 0, Hc, Hd, He, Ht],
             'MD(FT)': [0, Vb, MDc, MDd, MDe, MDt]
@@ -559,7 +559,7 @@ elif st.session_state.page == 'Horizontal_Double':
         st.header('***The Profile trajectory is shown as below:***')
         st.table(df)
 
-        MDx_values = np.linspace(0, MDt, 5000)
+        MDx_values = np.linspace(0, MDt, round(MDt))
         Vx_values = []
         Hx_values = []
         a1_values = []
@@ -624,7 +624,7 @@ elif st.session_state.page == 'Horizontal_Double':
             'A1': [0, 0, a1, a1, a1, a1],
             'A2': [0, 0, 0, 0, a2, a2],
             'AT': [0, at, at, at, at, at],
-            'labels': ['Start', 'Kick Off', 'End of Build Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target']  # Labels for the specific points
+            'labels': ['Start', 'Kick Off', 'End of 1st Build Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target']  # Labels for the specific points
             }
         fig.add_trace(go.Scatter(
             x=text_points['Hx'],
@@ -650,6 +650,5 @@ elif st.session_state.page == 'Horizontal_Double':
         # Display the data
         st.subheader('Buil, Hold and Drop Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, '1st Buildup Inclination Angle (°)' : a1_values, '2nd Buildup Inclination Angle (°)': a2_values, 'Total Inclination Angle (°)': at_values}))
-
 
 
