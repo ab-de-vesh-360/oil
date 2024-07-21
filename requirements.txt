@@ -7,4 +7,3 @@ plotly
 sympy
 pillow
 Image
-image_to_url
