@@ -158,7 +158,7 @@ elif st.session_state.page == 'Read_Build_Hold':
         st.session_state.page = 'Build_Hold'
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
-    image = Image.open('images/BuildHold.PNG')
+    image = Image.open('images/BuildHold.png')
     # st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 1.png', use_column_width=True)
     st.image(image, use_column_width=True)
     #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold3.png', use_column_width=True)
