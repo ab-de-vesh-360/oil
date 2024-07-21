@@ -7,4 +7,5 @@ plotly
 sympy
 pillow
 Pillow
+pil
 image
