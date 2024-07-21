@@ -6,5 +6,4 @@ scipy
 plotly
 sympy
 pillow
-PIL
-image
+Image
