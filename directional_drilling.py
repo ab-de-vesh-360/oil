@@ -6,8 +6,7 @@ from scipy.optimize import curve_fit
 import plotly.graph_objects as go
 from math import pi
 import sympy as sp
-import pil
-from pil import image
+from PIL import Image
 
 # Initialize session state for navigation
 if 'page' not in st.session_state:
