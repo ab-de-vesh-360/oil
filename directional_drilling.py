@@ -6,6 +6,7 @@ from scipy.optimize import curve_fit
 import plotly.graph_objects as go
 from math import pi
 import sympy as sp
+import image_to_url
 from PIL import Image
 
 # Initialize session state for navigation
