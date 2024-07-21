@@ -1,1 +1,5 @@
-cp C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app
+copy "C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold.PNG" images\
+git add images/BuildHold.PNG
+git commit -m "Add BuildHold.PNG image file"
+git remote add origin https://github.com/yourusername/your-repo-name.git
+git push -u origin main
