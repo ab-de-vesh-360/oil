@@ -6,6 +6,7 @@ from scipy.optimize import curve_fit
 import plotly.graph_objects as go
 from math import pi
 import sympy as sp
+from PIL import Image
 
 # Initialize session state for navigation
 if 'page' not in st.session_state:
@@ -16,11 +17,11 @@ if st.session_state.page != 'home':
         st.session_state.page = 'home'
 if st.session_state.page == 'home':
     # Initial interface with title and description
-    st.markdown("<h1 style='text-align: center; font-size: 40px;text-decoration: underline; margin-bottom: 0; color: dark brown;'>Directional Drilling Well Profiles</h1>", unsafe_allow_html=True)
-    st.markdown("*<h2 style='text-align: right; font-size: 20px;text-decoration: italy; margin-bottom: 0; color: green;'>Unleash the Trajectory!!</h2>*", unsafe_allow_html=True)
-    st.markdown("*Welcome to the Directional Drilling Profile Trajectory Calculator!*  \n    \n  *This tool is designed to assist drilling engineers and geologists in calculating and visualizing the trajectory of directional drilling profiles. By inputting key parameters such as Kick off Point, vertical depth of Target, horizontal distance to Target, and other corner values, this calculator provides accurate and efficient calculations of drilling trajectories. Whether you're planning a new well or analyzing an existing profile, our calculator helps you determine the build and hold sections of your drilling path, ensuring precision in achieving desired targets. With interactive visualizations and user-friendly interfaces, you can easily monitor the different parameters at any point along the path to the target.*")
+    st.markdown("<h1 style='text-align: center; font-size: 40px;text-decoration: underline; font-family: Lucida Bright, sans-serif; margin-bottom: 0; color: dark brown;'>Directional Drilling Well Profiles</h1>", unsafe_allow_html=True)
+    st.markdown("*<h2 style='text-align: right; font-size: 20px;text-decoration: italy; font-family: Lucida Bright, sans-serif; margin-bottom: 0; color: green;'>Unleash the Trajectory!!</h2>*", unsafe_allow_html=True)
+    st.markdown("*Welcome to the Directional Drilling Well Profile Trajectory Calculator!*  \n    \n  *This tool is designed to assist drilling engineers and geologists in calculating and visualizing the trajectory of directional drilling profiles. By inputting key parameters such as Kick off Point, vertical depth of Target, horizontal distance to Target, and other corner values, this calculator provides accurate and efficient calculations of drilling trajectories. Whether you're planning a new well or analyzing an existing profile, our calculator helps you determine the build and hold sections of your drilling path, ensuring precision in achieving desired targets. With interactive visualizations and user-friendly interfaces, you can easily monitor the different parameters at any point along the path to the target.*")
     
-    input_method = st.radio('**Please Select the Type of Drilling profile:**', ('Build and Hold Profile', 'Build, Hold and Drop Profile', 'Slanted Buildup Prfile', 'Horizontal Single Buildup Profile', 'Horizontal Double Buildup Profile'), index = None)
+    input_method = st.radio('**Please Select the Type of Drilling profile:**', ('Build and Hold Profile', 'Build, Hold and Drop Profile', 'Slanted Buildup Profile', 'Horizontal Single Buildup Profile', 'Horizontal Double Buildup Profile'), index = None)
 
     if input_method == 'Build and Hold Profile':
         st.session_state.page = 'Build_Hold'
@@ -28,7 +29,7 @@ if st.session_state.page == 'home':
     elif input_method == 'Build, Hold and Drop Profile':
         st.session_state.page = 'Build_Hold_Drop'
         st.rerun()
-    elif input_method == 'Slanted Buildup Prfile':
+    elif input_method == 'Slanted Buildup Profile':
         st.session_state.page = 'Slanted'
         st.rerun()
     elif input_method == 'Horizontal Single Buildup Profile':
@@ -38,9 +39,15 @@ if st.session_state.page == 'home':
         st.session_state.page = 'Horizontal_Double'
         st.rerun()
 
+
 elif st.session_state.page == 'Build_Hold':
     st.write('*It is used in the targets where a large horizontal displacement is required at relatively shallow depth. Shallow kick off point is selected. Under normal conditions, 15° - 55° inclination can be achieved. Although greater inclinations have been drilled in required cases.*')
     st.sidebar.write('Build and Hold Profile')
+
+    if st.sidebar.button('Read Geometry'):
+        st.session_state.page = 'Read_Build_Hold'
+        st.rerun()    
+
     st.sidebar.title('Enter the known Parameters required')
     
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
@@ -65,7 +72,7 @@ elif st.session_state.page == 'Build_Hold':
     b = st.sidebar.button('Show the Profile Trajectories')
     if b:
 
-        st.sidebar.write(f'Calculated Radius: {r:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (R): {r:.2f} ft')
         st.sidebar.write(f'Calculated Inclination Angle: {a:.2f}°')
 
         trajectory = {
@@ -77,7 +84,7 @@ elif st.session_state.page == 'Build_Hold':
         
         df = pd.DataFrame(trajectory)
         #st.dataframe(df, width=1000, height=200)
-        st.header('***The Profile trajectory is shown as below:***')
+        st.subheader('***The Profile trajectory is shown as below:***')
         st.table(df)
 
         MDx_values = np.linspace(0, MDt, round(MDt))
@@ -146,9 +153,20 @@ elif st.session_state.page == 'Build_Hold':
         st.subheader('Buil and Hold Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, 'Inclination Angle (°)' : a_values}))
 
+elif st.session_state.page == 'Read_Build_Hold':
+    if st.sidebar.button('Back'):
+        st.session_state.page = 'Build_Hold'
+        st.rerun()
+    st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
+    # st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 1.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold3.png', use_column_width=True)
 elif st.session_state.page == 'Build_Hold_Drop':
     st.write('*It is used in the targets where a smaller horizontal displacement is required at relatively deep vertical depth as compared to type-1 profile. In first build upattempt, the required inclination is achieved. Then the well is drilled tangentially for constant inclination and while approaching the pay zone the inclination is drop out so that the target can be penetrated.*')
     st.sidebar.write('Build, Hold and Drop Profile')
+    if st.sidebar.button('Read Geometry'):
+        st.session_state.page = 'Read_Build_Hold_Drop'
+        st.rerun()
     st.sidebar.title('Enter the known Parameters required')
     
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
@@ -184,8 +202,8 @@ elif st.session_state.page == 'Build_Hold_Drop':
 
     p = st.sidebar.button('Show the Profile Trajectories')
     if p:
-        st.sidebar.write(f'Calculated Radius (r1): {r1:.2f} ft')
-        st.sidebar.write(f'Calculated Radius (r2): {r2:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (R1): {r1:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (R2): {r2:.2f} ft')
         st.sidebar.write(f'Calculated Inclination after Buildup: {a1:.2f}°')
         st.sidebar.write(f'Calculated Drop Angle: {a1 - a2:.2f}°')
         trajectory = {
@@ -195,7 +213,7 @@ elif st.session_state.page == 'Build_Hold_Drop':
            'MD(FT)': [0, Vb, MDc, MDd, MDe, MDt]
            }
         df = pd.DataFrame(trajectory)
-        st.header('***The Profile trajectory is shown as below:***')
+        st.subheader('***The Profile trajectory is shown as below:***')
         st.table(df)
 
         MDx_values = np.linspace(0, MDt, round(MDt))
@@ -280,9 +298,21 @@ elif st.session_state.page == 'Build_Hold_Drop':
         st.subheader('Buil, Hold and Drop Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, ' Buildup Inclination Angle (°)' : a1_values, 'Drop Angle (°)': drop_values}))
 
+elif st.session_state.page == 'Read_Build_Hold_Drop':
+    if st.sidebar.button('Back'):
+        st.session_state.page = 'Build_Hold_Drop'
+        st.rerun()
+    st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 2.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD1.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD2.png', use_column_width=True)
+
 elif st.session_state.page == 'Slanted':
     st.write('*This type of profile can be drilled using the slanted rig that provides initial inclination at the time of spudding of the well profile by slanted position of the rig at the surface. This profile is beneficial to provide extension in the horizontal displacement, and is useful to penetrate the targets located at a far distances which are unable to be drilled by conventional well profile.*')
     st.sidebar.write('Slanted Buildup Prfile')
+    if st.sidebar.button('Read Geometry'):
+        st.session_state.page = 'Read_Slanted'
+        st.rerun()
     st.sidebar.title('Enter the known Parameters required')
     
     MDb = st.sidebar.number_input('Enter KOP Measured Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
@@ -318,7 +348,7 @@ elif st.session_state.page == 'Slanted':
 
     s = st.sidebar.button('Show the Profile Trajectories')
     if s:
-        st.sidebar.write(f'Calculated Radius (r): {r1:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (R): {r1:.2f} ft')
         st.sidebar.write(f'Calculated Inclination Buildup Angle: {a2:.2f}°')
         st.sidebar.write(f'Calculated Total Inclination Angle: {at:.2f}°')
         trajectory = {
@@ -328,7 +358,7 @@ elif st.session_state.page == 'Slanted':
             'MD(FT)': [0, Vb, MDc,MDt]
         }
         df = pd.DataFrame(trajectory)
-        st.header('***The Profile trajectory is shown as below:***')
+        st.subheader('***The Profile trajectory is shown as below:***')
         st.table(df)
 
         MDx_values = np.linspace(0, MDt, round(MDt))
@@ -406,12 +436,23 @@ elif st.session_state.page == 'Slanted':
         st.subheader('Slanted Buildup Profile Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, 'Inclination Buildup Angle (°)' : a2_values, 'Total Inclination Angle (°)': at_values}))
 
+elif st.session_state.page == 'Read_Slanted':
+    if st.sidebar.button('Back'):
+        st.session_state.page = 'Slanted'
+        st.rerun()
+    st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL1.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL2.png', use_column_width=True)
+
 elif st.session_state.page == 'Horizontal_Single':
     st.write('*The horizontal wells are the wells in which the well path enters the pay zone in parallel to the bedding plane. These provide the solution of the production through the tight reservoir, vertically fractured formation, damaged drainage areas, thin pay zones and wells having severe gas or oil conning problems. In such well profiles, the horizontal drain hole length (L) is decided by reservoir drainage area that has to be penetrated.*   \n    \n  *In this profile complete 90o inclination is achieved in one attempt of build up. This profile is useful in the fields where the drainage area is quite near to the vertical locus point of the surface drilling point i.e. not far than the radius of the curvature*')
     st.sidebar.write('Horizontal Single Buildup Profile')
+    if st.sidebar.button('Read Geometry'):
+        st.session_state.page = 'Read_Horizontal_Single'
+        st.rerun()
     st.sidebar.title('Enter the known Parameters required')
     
-    Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
+    Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=13000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=12000.0, min_value=0.0, step = 0.01)
     L = st.sidebar.number_input('Enter the Horizontal Length to be drilled (ft)', value=2000.0, min_value=0.0, step = 0.01)
 
@@ -427,8 +468,8 @@ elif st.session_state.page == 'Horizontal_Single':
     
     h = st.sidebar.button('Show the Profile Trajectories')
     if h:
-        st.sidebar.write(f'Calculated Radius (r): {r:.2f} ft')
-        st.sidebar.write(f'Calculated Buildup Rate (phi): {build_rate:.2f}°/100ft')
+        st.sidebar.write(f'Calculated Radius (R): {r:.2f} ft')
+        st.sidebar.write(f'Calculated Buildup Rate (φ): {build_rate:.2f}°/100ft')
         trajectory = {
             'Point': ['Start', 'Kick Off', 'End of Build-Up', 'Target'],
             'V(FT)': [0, Vb, Vc, Vt],
@@ -436,7 +477,7 @@ elif st.session_state.page == 'Horizontal_Single':
             'MD(FT)': [0, MDb, MDc, MDt]
         }
         df = pd.DataFrame(trajectory)
-        st.header('***The Profile trajectory is shown as below:***')
+        st.subheader('***The Profile trajectory is shown as below:***')
         st.table(df)
 
         MDx_values = np.linspace(0, MDt, round(MDt))
@@ -501,17 +542,28 @@ elif st.session_state.page == 'Horizontal_Single':
         # Display the data
         st.subheader('Horiontal Single Buildup Profile Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, 'Inclination Buildup Angle (°)' : a_values}))
-        
+
+elif st.session_state.page == 'Read_Horizontal_Single':
+    if st.sidebar.button('Back'):
+        st.session_state.page = 'Horizontal_Single'
+        st.rerun()
+    st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS1.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS2.png', use_column_width=True)
+
 elif st.session_state.page == 'Horizontal_Double':
     st.write('*In this profile the 90o inclination is achieved in two attempts of build up. This profile is selected in the fields where the target reservoir drainage area is far and is beyond the reach of the single build up profile.*')
     st.sidebar.write('Horizontal Double Buildup Profile')
+    if st.sidebar.button('Read Geometry'):
+        st.session_state.page = 'Read_Horizontal_Double'
+        st.rerun()
     st.sidebar.title('Enter the known Parameters required')
     
     Vb = st.sidebar.number_input('Enter KOP Depth (ft)', value=1000.0, min_value=0.0, step = 0.01)
     Vt = st.sidebar.number_input('Enter TVD of Target (ft)', value=10000.0, min_value=0.0, step = 0.01)
     Ht = st.sidebar.number_input('Enter Horizontal Distance to Target (ft)', value=16000.0, min_value=0.0, step = 0.01)
     L = st.sidebar.number_input('Enter the Horizontal Length to be drilled (ft)', value=2000.0, min_value=0.0, step = 0.01)
-    a1 = st.sidebar.number_input('Enter the inclination angle of first buuildup (degrees): ', value=60.0, min_value=0.0, step=0.01)
+    a1 = st.sidebar.number_input('Enter the inclination angle of first buildup (degrees): ', value=60.0, min_value=0.0, step=0.01)
     build_rate_1 = st.sidebar.number_input('Enter Build Rate 1 (degrees per 100 ft)', value=1.5, min_value=0.0, step = 0.01)
 
     def radius_of_curvature(build_rate):
@@ -544,10 +596,10 @@ elif st.session_state.page == 'Horizontal_Double':
 
     q = st.sidebar.button('Show the Profile Trajectories')
     if q:
-        st.sidebar.write(f'Calculated Radius (r1): {r1:.2f} ft')
-        st.sidebar.write(f'Calculated Radius (r2): {r2:.2f} ft')
-        st.sidebar.write(f'Calculated 2nd Buildup Rate (phi_2): {build_rate_2:.2f}°/100ft')
-        st.sidebar.write(f'Calculated Inclination Buildup Angle: {a2:.2f}°')
+        st.sidebar.write(f'Calculated Radius (R1): {r1:.2f} ft')
+        st.sidebar.write(f'Calculated Radius (R2): {r2:.2f} ft')
+        st.sidebar.write(f'Calculated 2nd Buildup Rate (φ2): {build_rate_2:.2f}°/100ft')
+        st.sidebar.write(f'Calculated Inclination Angle of 2nd Buildup: {a2:.2f}°')
         trajectory = {
             'Point': ['Start', 'Kick Off', 'End of 1st Build-Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target'],
             'V(FT)': [0, Vb, Vc, Vd, Ve, Vt],
@@ -556,7 +608,7 @@ elif st.session_state.page == 'Horizontal_Double':
 
         }
         df = pd.DataFrame(trajectory)       
-        st.header('***The Profile trajectory is shown as below:***')
+        st.subheader('***The Profile trajectory is shown as below:***')
         st.table(df)
 
         MDx_values = np.linspace(0, MDt, round(MDt))
@@ -623,7 +675,7 @@ elif st.session_state.page == 'Horizontal_Double':
             'MDx': [0, Vb, MDc, MDd, MDe, MDt],
             'A1': [0, 0, a1, a1, a1, a1],
             'A2': [0, 0, 0, 0, a2, a2],
-            'AT': [0, at, at, at, at, at],
+            'AT': [0, 0, a1, a1, a1 + a2, a1 + a2],
             'labels': ['Start', 'Kick Off', 'End of 1st Build Up', 'Start of 2nd Buildup', 'End of 2nd Buildup', 'Target']  # Labels for the specific points
             }
         fig.add_trace(go.Scatter(
@@ -651,4 +703,12 @@ elif st.session_state.page == 'Horizontal_Double':
         st.subheader('Buil, Hold and Drop Trajectory Data')
         st.write(pd.DataFrame({'Measured Depth (MD),ft': MDx_values, 'Vertical Depth (v), ft': Vx_values, 'Horizontal Distance (H), ft': Hx_values, '1st Buildup Inclination Angle (°)' : a1_values, '2nd Buildup Inclination Angle (°)': a2_values, 'Total Inclination Angle (°)': at_values}))
 
+elif st.session_state.page == 'Read_Horizontal_Double':
+    if st.sidebar.button('Back'):
+        st.session_state.page = 'Horizontal_Double'
+        st.rerun()
+    st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
 
+    
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD1.png', use_column_width=True)
+    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD2.png', use_column_width=True)
