@@ -160,7 +160,7 @@ elif st.session_state.page == 'Read_Build_Hold':
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
     # st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 1.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold.png', use_column_width=True)
+    st.image(Image.open('images/BuildHold.png'), use_column_width=True)
     st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold3.png', use_column_width=True)
 elif st.session_state.page == 'Build_Hold_Drop':
     st.write('*It is used in the targets where a smaller horizontal displacement is required at relatively deep vertical depth as compared to type-1 profile. In first build upattempt, the required inclination is achieved. Then the well is drilled tangentially for constant inclination and while approaching the pay zone the inclination is drop out so that the target can be penetrated.*')
