@@ -6,7 +6,6 @@ from scipy.optimize import curve_fit
 import plotly.graph_objects as go
 from math import pi
 import sympy as sp
-import PIL
 from PIL import Image
 
 # Initialize session state for navigation
@@ -159,8 +158,9 @@ elif st.session_state.page == 'Read_Build_Hold':
         st.session_state.page = 'Build_Hold'
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
+    image = Image.open('Images/BuildHold.png')
     # st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 1.png', use_column_width=True)
-    st.image('Images/BuildHold.png', use_column_width=True)
+    st.image(image, use_column_width=True)
     #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold3.png', use_column_width=True)
 elif st.session_state.page == 'Build_Hold_Drop':
     st.write('*It is used in the targets where a smaller horizontal displacement is required at relatively deep vertical depth as compared to type-1 profile. In first build upattempt, the required inclination is achieved. Then the well is drilled tangentially for constant inclination and while approaching the pay zone the inclination is drop out so that the target can be penetrated.*')
