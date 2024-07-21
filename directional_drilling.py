@@ -305,8 +305,10 @@ elif st.session_state.page == 'Read_Build_Hold_Drop':
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
     #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\Type 2.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD1.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD2.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD1.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BHD2.png', use_column_width=True)
+    st.image(Image.open('images/BHD1.png'), use_column_width=True)
+    st.image(Image.open('images/BHD2.png'), use_column_width=True)
 
 elif st.session_state.page == 'Slanted':
     st.write('*This type of profile can be drilled using the slanted rig that provides initial inclination at the time of spudding of the well profile by slanted position of the rig at the surface. This profile is beneficial to provide extension in the horizontal displacement, and is useful to penetrate the targets located at a far distances which are unable to be drilled by conventional well profile.*')
@@ -442,8 +444,10 @@ elif st.session_state.page == 'Read_Slanted':
         st.session_state.page = 'Slanted'
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL1.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL2.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL1.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\SL2.png', use_column_width=True)
+    st.image(Image.open('images/SL1.png'), use_column_width=True)
+    st.image(Image.open('images/SL2.png'), use_column_width=True)
 
 elif st.session_state.page == 'Horizontal_Single':
     st.write('*The horizontal wells are the wells in which the well path enters the pay zone in parallel to the bedding plane. These provide the solution of the production through the tight reservoir, vertically fractured formation, damaged drainage areas, thin pay zones and wells having severe gas or oil conning problems. In such well profiles, the horizontal drain hole length (L) is decided by reservoir drainage area that has to be penetrated.*   \n    \n  *In this profile complete 90o inclination is achieved in one attempt of build up. This profile is useful in the fields where the drainage area is quite near to the vertical locus point of the surface drilling point i.e. not far than the radius of the curvature*')
@@ -549,8 +553,10 @@ elif st.session_state.page == 'Read_Horizontal_Single':
         st.session_state.page = 'Horizontal_Single'
         st.rerun()
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS1.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS2.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS1.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HS2.png', use_column_width=True)
+    st.image(Image.open('images/HS1.png'), use_column_width=True)
+    st.image(Image.open('images/HS2.png'), use_column_width=True)
 
 elif st.session_state.page == 'Horizontal_Double':
     st.write('*In this profile the 90o inclination is achieved in two attempts of build up. This profile is selected in the fields where the target reservoir drainage area is far and is beyond the reach of the single build up profile.*')
@@ -711,5 +717,7 @@ elif st.session_state.page == 'Read_Horizontal_Double':
     st.subheader('***Here is the Theory and Explanation of the Profile Geometry***')
 
     
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD1.png', use_column_width=True)
-    st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD2.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD1.png', use_column_width=True)
+    #st.image(r'C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\HD2.png', use_column_width=True)
+    st.image(Image.open('images/HD1.png'), use_column_width=True)
+    st.image(Image.open('images/HD2.png'), use_column_width=True)
