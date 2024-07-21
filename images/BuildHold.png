@@ -1,4 +1,4 @@
-cd path\to\your\my-streamlit-app
+
 mkdir images
 copy "C:\Users\Devesh Kumar Singh\Pictures\Directional Drilling app\BuildHold.PNG" images\
 git add images/BuildHold.PNG
