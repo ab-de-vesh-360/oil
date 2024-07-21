@@ -6,3 +6,5 @@ scipy
 plotly
 sympy
 pillow
+pil
+Pillow
